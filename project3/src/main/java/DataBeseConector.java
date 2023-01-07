@@ -29,31 +29,34 @@ public class DataBeseConector {
         }
 
     }
-    public void executeSqlSelect() {
+    public Person executeSqlSelect() {
+        Person person = null;
         try {
             Statement stm = this.connection.createStatement();
-            ResultSet rs = stm.executeQuery( "SELECT * FROM PERSON;" );
-            while ( rs.next() ) {
-                int id = rs.getInt("id");
-                String  username = rs.getString("username");
-                String  email = rs.getString("email");
-                String password  = rs.getString("password");
-                Boolean  enable = rs.getBoolean("enable");
-                System.out.println( "ID = " + id );
-                System.out.println( "username = " + username );
-                System.out.println( "email = " + email );
-                System.out.println( "password = " + password );
-                System.out.println( "enable = " + enable );
+            ResultSet rs = stm.executeQuery("SELECT * FROM PERSON;");
+            while (rs.next()) {
+                long id = rs.getInt("id");
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                Boolean enable = rs.getBoolean("enable");
+                String number = rs.getString("number");
+                person = new Person(id, username, email, password, enable, number);
+                System.out.println("ID = " + id);
+                System.out.println("username = " + username);
+                System.out.println("email = " + email);
+                System.out.println("password = " + password);
+                System.out.println("enable = " + enable);
                 System.out.println();
             }
             rs.close();
             stm.close();
             this.connection.close();
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-
+        return person;
     }
 
 

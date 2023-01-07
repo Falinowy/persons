@@ -15,6 +15,7 @@ public class Person {
         this.number = number;
     }
 
+
     public void add(DataBeseConector db) {
         String insert = "insert into person (username,email,number,id,password,enable) \n" +
                 "VALUES (" + this.username + "," + this.email + ',' + this.number + ',' + this.id + ',' + this.password + ',' + this.enable +")";

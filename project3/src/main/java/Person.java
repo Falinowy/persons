@@ -17,21 +17,37 @@ public class Person {
 
 
     public void add(DataBeseConector db) {
-        String insert = "insert into person (username,email,number,id,password,enable) \n" +
-                "VALUES (" + this.username + "," + this.email + ',' + this.number + ',' + this.id + ',' + this.password + ',' + this.enable +")";
-                db.executeSqlInsert(insert);
+        String insert = "INSERT INTO PERSON VALUES ('" +
+                this.id + "', '" +
+                this.username + "', '" +
+                this.password + "', " +
+                this.email + "', " +
+                this.enabled.toString() + ", " +
+                this.number + ")";
+        db.executeSqlInsert(insert);
     }
     public void read(DataBeseConector db) {
-        String insert = "SELECT * FROM PERSON WHERE USERNAME =" + this.username;
-        db.executeSqlInsert(insert);
+        String select = "SELECT * FROM person WHERE username = '" + this.username + "'";
+        ResultSet rs = db.executeSqlSelect(select);
+        while (rs.next()) {
+            long id = rs.getLong("id");
+            String username = rs.getString("username");
+            String email = rs.getString("email");
+            String password = rs.getString("password");
+            boolean enabled = rs.getBoolean("enabled");
+            Person person = new Person(id, username, email, password, enabled, number);
+            System.out.println("id: " + id + ", username: " + username + ", email: " + email + ", password: " + password + ", enabled: " + enabled + ", number: " + number);
+        }
     }
     public void delete(DataBeseConector db) {
-        String insert = "DELETE * FROM PERSON WHERE =" + this.id;
-        db.executeSqlInsert(insert);
+        String delete = "DELETE FROM person WHERE username = '" + this.username  + "'and id ='" + this.id "'";
+        int count = db.executeSqlDelete(delete);
+        System.out.println("Usunięto " + count + " rekordów.");
     }
     public void update(DataBeseConector db) {
-        String insert = "UPDATE * FROM PERSON WHERE =" + this.id;;
-        db.executeSqlInsert(insert);
+        String update = "UPDATE person SET email = '" + this.email + "and password ='" + this.password + "and number = '" + this.number "' WHERE username = '" + this.username + "'";
+        int count = db.executeSqlUpdate(update);
+        System.out.println("Zaktualizowano " + count + " rekordów.");
     }
 }
 
